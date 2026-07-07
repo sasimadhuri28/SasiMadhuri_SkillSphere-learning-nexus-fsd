@@ -1,0 +1,46 @@
+package com.example.demo;
+
+import org.springframework.web.bind.annotation.*;
+import java.util.*;
+
+@RestController
+@RequestMapping("/items")
+public class HelloController {
+
+    // A simple in-memory list to store items (acts like a mini database)
+    private List<String> items = new ArrayList<>(List.of("Pen", "Notebook", "Bag"));
+
+    // GET - fetch all items
+    @GetMapping
+    public List<String> getAllItems() {
+        return items;
+    }
+
+    // GET - fetch a single item by index
+    @GetMapping("/{index}")
+    public String getItem(@PathVariable int index) {
+        return items.get(index);
+    }
+
+    // POST - add a new item
+    @PostMapping
+    public String addItem(@RequestBody String newItem) {
+        items.add(newItem);
+        return "Item added: " + newItem;
+    }
+
+    // PUT - update an existing item by index
+    @PutMapping("/{index}")
+    public String updateItem(@PathVariable int index, @RequestBody String updatedItem) {
+        items.set(index, updatedItem);
+        return "Item at index " + index + " updated to: " + updatedItem;
+    }
+
+    // DELETE - remove an item by index
+    @DeleteMapping("/{index}")
+    public String deleteItem(@PathVariable int index) {
+        String removed = items.remove(index);
+        return "Item removed: " + removed;
+    }
+
+}
